@@ -21,7 +21,7 @@ end
 describe ::DummyPost do
   it { is_expected.to have_attribute(:title) }
   it { is_expected.to have_attribute(:body).of_type(String) }
-  it { is_expected.to have_attribute(:comments).of_type(Array, member_type: String) }
+  it { is_expected.to have_attribute(:comments).of_type(Array[String]) }
   it { is_expected.to have_attribute(:greeting).of_type(String).with_default('Hello!') }
   it { is_expected.to have_attribute(:default_lambda).of_type(String).with_default('Wow!') }
   it { is_expected.to have_attribute(:customs).of_type(String).with_default('Foo!') }

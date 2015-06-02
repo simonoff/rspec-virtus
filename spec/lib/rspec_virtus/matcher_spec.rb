@@ -33,7 +33,7 @@ describe RSpec::Virtus::Matcher do
       let(:attribute_name) { :the_array_attribute }
 
       before do
-        instance.of_type(Array, member_type: String)
+        instance.of_type(Array[String])
       end
 
       it { is_expected.to eql(true) }
@@ -75,7 +75,7 @@ describe RSpec::Virtus::Matcher do
       let(:attribute_name) { :the_array_attribute }
 
       before do
-        instance.of_type(Array, member_type: Integer)
+        instance.of_type(Array[Integer])
       end
 
       it { is_expected.to eql(false) }
@@ -113,15 +113,15 @@ describe RSpec::Virtus::Matcher do
     end
 
     context 'arrays of values' do
-      subject { instance.of_type(Array, member_type: String) }
+      subject { instance.of_type(Array[String]) }
 
       it 'adds an option to allow the type to be checked' do
-        options_type = subject.instance_variable_get(:@options)[:type]
+        options_type = subject.instance_variable_get(:@options)[:type].class
         expect(options_type).to eql(Array)
       end
 
       it 'adds an option to allow the member_type to be checked' do
-        member_options_type = subject.instance_variable_get(:@options)[:member_type]
+        member_options_type = subject.instance_variable_get(:@options)[:type].first
         expect(member_options_type).to eql(String)
       end
     end

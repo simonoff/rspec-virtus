@@ -13,9 +13,8 @@ module RSpec
         msg
       end
 
-      def of_type(type, options = {})
+      def of_type(type)
         @options[:type] = type
-        @options[:member_type] = options.delete(:member_type)
         self
       end
 
@@ -75,8 +74,8 @@ module RSpec
       end
 
       def type_correct?
-        if @options[:member_type]
-          member_type == @options[:member_type] && attribute_type == @options[:type]
+        if @options[:type].is_a?(::Array)
+          attribute_type == Array && member_type == @options[:type].first
         elsif @options[:type]
           attribute_type == @options[:type]
         else
