@@ -24,10 +24,15 @@ module RSpec
         self
       end
 
+      def with_required(value)
+        @options[:required] = value
+        self
+      end
+
       def matches?(instance)
         @instance = instance
         @subject = instance.class
-        attribute_exists? && type_correct? && default_value_correct?
+        attribute_exists? && type_correct? && default_value_correct? && required?
       end
 
       def failure_message
@@ -82,6 +87,11 @@ module RSpec
       def default_value_correct?
         return true unless @options[:default_value]
         attribute_default_value == @options[:default_value]
+      end
+
+      def required?
+        return true if @options[:required].nil?
+        attribute.required? == @options[:required]
       end
     end
   end

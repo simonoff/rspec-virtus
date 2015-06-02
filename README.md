@@ -60,6 +60,7 @@ And with `rspec_virtus` we can now make simple assertions about these models
     - Rename gem
     - Make possibility to use default subject
     - Support for default values
+    - Support for required option
 
 - Version 1.0.1
     - Remove deprecation notices about legacy matcher syntax
