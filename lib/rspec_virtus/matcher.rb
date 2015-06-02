@@ -7,26 +7,31 @@ module RSpec
       end
 
       def description
-        "have #{@attribute_name} defined"
+        "have attribute #{@attribute_name}#{@options[:type] ? ", #{@options[:type]}" : ''}"
       end
 
-      def of_type(type, options={})
+      def of_type(type, options = {})
         @options[:type] = type
         @options[:member_type] = options.delete(:member_type)
         self
       end
 
-      def matches?(subject)
-        @subject = subject
-        attribute_exists? && type_correct?
+      def with_default(default_value)
+        @options[:default_value] = default_value
+        self
+      end
+
+      def matches?(instance)
+        @subject = instance.class
+        attribute_exists? && type_correct? && default_value_correct?
       end
 
       def failure_message
-        "expected #{@attribute_name} to be defined"
+        "should #{@attribute_name} to be defined"
       end
 
       def failure_message_when_negated
-        "expected #{@attribute_name} not to be defined"
+        "should #{@attribute_name} not to be defined"
       end
 
       private
@@ -44,7 +49,11 @@ module RSpec
       end
 
       def attribute_exists?
-        attribute != nil
+        !attribute.nil?
+      end
+
+      def attribute_default_value
+        attribute.default_value.value
       end
 
       def type_correct?
@@ -55,6 +64,11 @@ module RSpec
         else
           true
         end
+      end
+
+      def default_value_correct?
+        return true unless @options[:default_value]
+        attribute_default_value == @options[:default_value]
       end
     end
   end
