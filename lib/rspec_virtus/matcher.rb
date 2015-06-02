@@ -7,7 +7,10 @@ module RSpec
       end
 
       def description
-        "have attribute #{@attribute_name}#{@options[:type] ? ", #{@options[:type]}" : ''}"
+        msg = "have attribute #{@attribute_name}"
+        msg << ", #{@options[:type]}" if @options[:type]
+        msg << ", default: #{@options[:default_value]}" if @options[:default_value]
+        msg
       end
 
       def of_type(type, options = {})
