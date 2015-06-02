@@ -59,6 +59,7 @@ And with `rspec_virtus` we can now make simple assertions about these models
     - Refactor gem
     - Rename gem
     - Make possibility to use default subject
+    - Support for default values
 
 - Version 1.0.1
     - Remove deprecation notices about legacy matcher syntax

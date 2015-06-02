@@ -1,3 +1,4 @@
+require 'simplecov'
 require 'rspec_virtus'
 
 RSpec.configure do |config|

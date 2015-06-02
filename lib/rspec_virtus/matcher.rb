@@ -25,6 +25,7 @@ module RSpec
       end
 
       def matches?(instance)
+        @instance = instance
         @subject = instance.class
         attribute_exists? && type_correct? && default_value_correct?
       end
@@ -56,7 +57,16 @@ module RSpec
       end
 
       def attribute_default_value
-        attribute.default_value.value
+        value = attribute.default_value.value
+
+        case value
+        when ::Proc
+          value.call(@instance, attribute)
+        when ::Symbol
+          @instance.__send__(value)
+        else
+          value
+        end
       end
 
       def type_correct?
