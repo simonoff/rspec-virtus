@@ -6,11 +6,12 @@ require 'rspec-virtus/version'
 Gem::Specification.new do |gem|
   gem.name          = 'rspec_virtus'
   gem.version       = RSpec::Virtus::VERSION
-  gem.authors       = ['Michael Smith']
-  gem.email         = ['mike@spokefire.co.uk']
+  gem.authors       = ['Michael Smith', 'Alexander Simonov']
+  gem.email         = ['mike@spokefire.co.uk', 'alex@simonov.me']
   gem.description   = 'Simple RSpec matchers for Virtus objects'
   gem.summary       = 'Simple RSpec matchers for Virtus objects'
-  gem.homepage      = 'https://github.com/mikespokefire/rspec-virtus'
+  gem.homepage      = 'https://github.com/simonoff/rspec_virtus'
+  gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   gem.executables   = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
