@@ -1,4 +1,4 @@
-# Rspec::Virtus [![Build Status](https://travis-ci.org/mikespokefire/rspec-virtus.png?branch=master)](https://travis-ci.org/mikespokefire/rspec-virtus) [![Code Climate](https://codeclimate.com/github/mikespokefire/rspec-virtus.png)](https://codeclimate.com/github/mikespokefire/rspec-virtus)
+# RSpec::Virtus [![Build Status](https://travis-ci.org/simonoff/rspec_virtus.png?branch=master)](https://travis-ci.org/simonoff/rspec_virtus) [![Code Climate](https://codeclimate.com/github/simonoff/rspec_virtus.png)](https://codeclimate.com/github/simonoff/rspec_virtus)
 
 Simple RSpec matchers for your Virtus objects
 
@@ -6,7 +6,7 @@ Simple RSpec matchers for your Virtus objects
 
 Add this line to your application's Gemfile:
 
-    gem 'rspec-virtus'
+    gem 'rspec_virtus'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rspec-virtus
+    $ gem install rspec_virtus
 
 ## Usage
 
@@ -24,26 +24,24 @@ Here is a sample Virtus object
       include Virtus.model
       attribute :title, String
       attribute :body, String
+      attribute :some_default, String, default: 'WOW!'
       attribute :comments, Array[String]
     end
 
-And with `rspec-virtus` we can now make simple assertions about these models
+And with `rspec_virtus` we can now make simple assertions about these models
 
     require 'spec_helper'
 
     describe Post
       describe 'attributes' do
-        it "has an attribute" do
-          expect(described_class).to have_attribute(:title)
-        end
+        it { is_expected.to have_attribute(:title) }
 
-        it "has an attribute with a type check" do
-          expect(described_class).to have_attribute(:body).of_type(String)
-        end
+        it { is_expected.to have_attribute(:body).of_type(String) }
 
-        it "has an array attribute with a type check" do
-          expect(described_class).to have_attribute(:comments).of_type(Array, member_type: String)
-        end
+        it { is_expected.to have_attribute(:some_default).with_default('WOW!') }
+
+        it { is_expected.to have_attribute(:comments).of_type(String, member_type: String) }
+
       end
     end
 
@@ -56,6 +54,11 @@ And with `rspec-virtus` we can now make simple assertions about these models
 5. Create new Pull Request
 
 ## Changelog
+
+- Version 1.1.0
+    - Refactor gem
+    - Rename gem
+    - Make possibility to use default subject
 
 - Version 1.0.1
     - Remove deprecation notices about legacy matcher syntax
