@@ -8,7 +8,7 @@ module RSpec
 
       def description
         msg = "have attribute #{@attribute_name}"
-        msg << ", #{@options[:type]}" if @options[:type]
+        msg << ", #{normalize_type}" if @options[:type]
         msg << ", default: #{@options[:default_value]}" if @options[:default_value]
         msg
       end
@@ -75,7 +75,7 @@ module RSpec
 
       def type_correct?
         if @options[:type].is_a?(::Array)
-          attribute_type == Array && member_type == @options[:type].first
+          attribute_type == @options[:type].class && member_type == @options[:type].first
         elsif @options[:type]
           attribute_type == @options[:type]
         else
@@ -91,6 +91,14 @@ module RSpec
       def required?
         return true if @options[:required].nil?
         attribute.required? == @options[:required]
+      end
+
+      def normalize_type
+        if @options[:type].is_a?(::Array)
+          "#{@options[:type].class}[#{@options[:type].first}]"
+        else
+          @options[:type]
+        end
       end
     end
   end
