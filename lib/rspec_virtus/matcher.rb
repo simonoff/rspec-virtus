@@ -31,15 +31,28 @@ module RSpec
       def matches?(instance)
         @instance = instance
         @subject = instance.class
-        attribute_exists? && type_correct? && default_value_correct? && required?
+        @match_attribute_exists = attribute_exists?
+        return false unless @match_attribute_exists
+        @match_type_correct = type_correct?
+        @match_default_value_correct = default_value_correct?
+        @match_required_correct = required?
+        @match_attribute_exists && @match_type_correct && @match_default_value_correct && @match_required_correct
       end
 
       def failure_message
-        "should #{@attribute_name} to be defined"
+        msg = ["expected #{@attribute_name} to be defined"]
+        msg << "have type #{normalize_type}" if @options.key?(:type) && !@match_type_correct
+        msg << 'have correct default value'  if @options.key?(:default_value) && !@match_default_value_correct
+        msg << 'have correct required flag'  if @options.key?(:required) && !@match_required_correct
+        msg.join(' and ')
       end
 
       def failure_message_when_negated
-        "should #{@attribute_name} not to be defined"
+        msg = ["expect #{@attribute_name} not to be defined"]
+        msg << "not have type #{normalize_type}" if @options.key?(:type)
+        msg << 'not have correct default value'  if @options.key?(:default_value)
+        msg << 'not have correct required flag'  if @options.key?(:required)
+        msg.join(' and ')
       end
 
       private

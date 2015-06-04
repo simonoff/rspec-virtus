@@ -34,13 +34,13 @@ And with `rspec_virtus` we can now make simple assertions about these models
 
     describe Post
       describe 'attributes' do
-        it { is_expected.to have_attribute(:title) }
+        it { is_expected.to have_virtus_attribute(:title) }
 
-        it { is_expected.to have_attribute(:body).of_type(String) }
+        it { is_expected.to have_virtus_attribute(:body).of_type(String) }
 
-        it { is_expected.to have_attribute(:some_default).with_default('WOW!') }
+        it { is_expected.to have_virtus_attribute(:some_default).with_default('WOW!') }
 
-        it { is_expected.to have_attribute(:comments).of_type(String, member_type: String) }
+        it { is_expected.to have_virtus_attribute(:comments).of_type(String, member_type: String) }
 
       end
     end
@@ -52,20 +52,3 @@ And with `rspec_virtus` we can now make simple assertions about these models
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
-
-## Changelog
-
-- Version 1.1.0
-    - Refactor gem
-    - Rename gem
-    - Make possibility to use default subject
-    - Support for default values
-    - Support for required option
-
-- Version 1.0.1
-    - Remove deprecation notices about legacy matcher syntax
-    - Add description to match RSpec 3 matchers
-- Version 1.0.0
-    - Upgrade syntax to work with Virtus 1.0.x
-- Version 0.2.0
-    - Upgrade to RSpec 3.0

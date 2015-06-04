@@ -14,11 +14,11 @@ describe RSpec::Virtus::Matcher do
   end
 
   describe '#matches?' do
-    subject { instance.matches?(actual) }
     let(:actual) { DummyVirtus.new }
+    subject { instance.matches?(actual) }
 
     context 'successful match on attribute name' do
-      it { is_expected.to eql(true) }
+      it { is_expected.to be_truthy }
     end
 
     context 'successful match on attribute name and type' do
@@ -26,7 +26,7 @@ describe RSpec::Virtus::Matcher do
         instance.of_type(String)
       end
 
-      it { is_expected.to eql(true) }
+      it { is_expected.to be_truthy }
     end
 
     context 'successful match on attribute name, type and member_type' do
@@ -36,7 +36,7 @@ describe RSpec::Virtus::Matcher do
         instance.of_type(Array[String])
       end
 
-      it { is_expected.to eql(true) }
+      it { is_expected.to be_truthy }
     end
 
     context 'successful match with default value' do
@@ -44,7 +44,7 @@ describe RSpec::Virtus::Matcher do
       before do
         instance.with_default(5)
       end
-      it { is_expected.to eql(true) }
+      it { is_expected.to be_truthy }
     end
 
     context 'successful match with type and default value' do
@@ -52,13 +52,13 @@ describe RSpec::Virtus::Matcher do
       before do
         instance.of_type(Integer).with_default(5)
       end
-      it { is_expected.to eql(true) }
+      it { is_expected.to be_truthy }
     end
 
     context 'unsuccessful match on attribute name' do
       let(:attribute_name) { :something_else }
 
-      it { is_expected.to eql(false) }
+      it { is_expected.to be_falsey }
     end
 
     context 'unsuccessful match on attribute name and type' do
@@ -68,7 +68,7 @@ describe RSpec::Virtus::Matcher do
         instance.of_type(Integer)
       end
 
-      it { is_expected.to eql(false) }
+      it { is_expected.to be_falsey }
     end
 
     context 'unsuccessful match on attribute name, type and member_type' do
@@ -78,7 +78,7 @@ describe RSpec::Virtus::Matcher do
         instance.of_type(Array[Integer])
       end
 
-      it { is_expected.to eql(false) }
+      it { is_expected.to be_falsey }
     end
 
     context 'unsuccessful match with default value' do
@@ -86,7 +86,7 @@ describe RSpec::Virtus::Matcher do
       before do
         instance.with_default(-1)
       end
-      it { is_expected.to eql(false) }
+      it { is_expected.to be_falsey }
     end
 
     context 'unsuccessful match with type and default value' do
@@ -94,7 +94,7 @@ describe RSpec::Virtus::Matcher do
       before do
         instance.of_type(Integer).with_default(-5)
       end
-      it { is_expected.to eql(false) }
+      it { is_expected.to be_falsey }
     end
   end
 
