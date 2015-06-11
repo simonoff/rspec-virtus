@@ -1,6 +1,6 @@
 require 'rspec/core'
-require 'rspec_virtus/matcher'
-require 'rspec_virtus/version'
+require 'rspec/virtus/matcher'
+require 'rspec/virtus/version'
 
 module RSpec
   module Virtus

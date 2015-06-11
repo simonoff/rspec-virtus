@@ -16,6 +16,10 @@ Or install it yourself as:
 
     $ gem install rspec_virtus
 
+Add to your `spec_helper` file next line:
+
+    require 'rspec/virtus'
+
 ## Usage
 
 Here is a sample Virtus object

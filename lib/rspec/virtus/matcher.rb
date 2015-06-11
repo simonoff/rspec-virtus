@@ -10,6 +10,7 @@ module RSpec
         msg = "have attribute #{@attribute_name}"
         msg << ", #{normalize_type}" if @options[:type]
         msg << ", default: #{@options[:default_value]}" if @options[:default_value]
+        msg << ", required: #{@options[:required]}" unless @options[:required].nil?
         msg
       end
 
