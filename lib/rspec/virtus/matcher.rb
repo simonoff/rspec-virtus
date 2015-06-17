@@ -81,7 +81,7 @@ module RSpec
         when ::Proc
           value.call(@instance, attribute)
         when ::Symbol
-          @instance.__send__(value)
+          @instance.respond_to?(value, true) ? __send__(value) : value
         else
           value
         end
