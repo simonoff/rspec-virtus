@@ -1,5 +1,6 @@
 Copyright (c) 2013 Michael Smith
 Copyright (c) 2015 Alexander Simonov
+Copyright (c) 2019 Mohamed Diaa
 
 MIT License
 
