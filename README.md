@@ -44,7 +44,7 @@ And with `rspec_virtus` we can now make simple assertions about these models
 
         it { is_expected.to have_virtus_attribute(:some_default).with_default('WOW!') }
 
-        it { is_expected.to have_virtus_attribute(:comments).of_type(String, member_type: String) }
+        it { is_expected.to have_virtus_attribute(:comments).of_type(Array[String]) }
 
       end
     end
