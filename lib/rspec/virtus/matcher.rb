@@ -11,6 +11,7 @@ module RSpec
         msg << ", #{normalize_type}" if @options[:type]
         msg << ", default: #{@options[:default_value]}" if @options[:default_value]
         msg << ", required: #{@options[:required]}" unless @options[:required].nil?
+        msg << ", lazy: #{@options[:lazy]}" unless @options[:lazy].nil?
         msg
       end
 
@@ -29,6 +30,11 @@ module RSpec
         self
       end
 
+      def with_lazy(value)
+        @options[:lazy] = value
+        self
+      end
+
       def matches?(instance)
         @instance = instance
         @subject = instance.class
@@ -37,7 +43,8 @@ module RSpec
         @match_type_correct = type_correct?
         @match_default_value_correct = default_value_correct?
         @match_required_correct = required?
-        @match_attribute_exists && @match_type_correct && @match_default_value_correct && @match_required_correct
+        @match_lazy_correct = lazy?
+        @match_attribute_exists && @match_type_correct && @match_default_value_correct && @match_required_correct && @match_lazy_correct
       end
 
       def failure_message
@@ -45,6 +52,7 @@ module RSpec
         msg << "have type #{normalize_type}" if @options.key?(:type) && !@match_type_correct
         msg << 'have correct default value'  if @options.key?(:default_value) && !@match_default_value_correct
         msg << 'have correct required flag'  if @options.key?(:required) && !@match_required_correct
+        msg << 'have correct lazy flag'  if @options.key?(:lazy) && !@match_lazy_correct
         msg.join(' and ')
       end
 
@@ -53,6 +61,7 @@ module RSpec
         msg << "not have type #{normalize_type}" if @options.key?(:type)
         msg << 'not have correct default value'  if @options.key?(:default_value)
         msg << 'not have correct required flag'  if @options.key?(:required)
+        msg << 'not have correct lazy flag'  if @options.key?(:lazy)
         msg.join(' and ')
       end
 
@@ -81,7 +90,7 @@ module RSpec
         when ::Proc
           value.call(@instance, attribute)
         when ::Symbol
-          @instance.respond_to?(value, true) ? __send__(value) : value
+          @instance.respond_to?(value, true) ? @instance.__send__(value) : value
         else
           value
         end
@@ -105,6 +114,11 @@ module RSpec
       def required?
         return true if @options[:required].nil?
         attribute.required? == @options[:required]
+      end
+
+      def lazy?
+        return true if @options[:lazy].nil?
+        attribute.lazy? == @options[:lazy]
       end
 
       def normalize_type

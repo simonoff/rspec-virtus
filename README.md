@@ -29,7 +29,12 @@ Here is a sample Virtus object
       attribute :title, String
       attribute :body, String
       attribute :some_default, String, default: 'WOW!'
+      attribute :some_lazy_default, String, default: :some_method, lazy: true
       attribute :comments, Array[String]
+
+      def some_method
+        "FOO!"
+      end
     end
 
 And with `rspec_virtus` we can now make simple assertions about these models
@@ -43,6 +48,8 @@ And with `rspec_virtus` we can now make simple assertions about these models
         it { is_expected.to have_virtus_attribute(:body).of_type(String) }
 
         it { is_expected.to have_virtus_attribute(:some_default).with_default('WOW!') }
+
+        it { is_expected.to have_virtus_attribute(:some_lazy_default).with_default('FOO!').with_lazy(true) }
 
         it { is_expected.to have_virtus_attribute(:comments).of_type(Array[String]) }
 
