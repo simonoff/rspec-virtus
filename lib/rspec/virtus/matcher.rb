@@ -12,6 +12,7 @@ module RSpec
         msg << ", default: #{@options[:default_value]}" if @options[:default_value]
         msg << ", required: #{@options[:required]}" unless @options[:required].nil?
         msg << ", lazy: #{@options[:lazy]}" unless @options[:lazy].nil?
+        msg << ", writer: #{@options[:writer]}" unless @options[:writer].nil?
         msg
       end
 
@@ -35,6 +36,11 @@ module RSpec
         self
       end
 
+      def with_writer(value)
+        @options[:writer] = value
+        self
+      end
+
       def matches?(instance)
         @instance = instance
         @subject = instance.class
@@ -44,7 +50,8 @@ module RSpec
         @match_default_value_correct = default_value_correct?
         @match_required_correct = required?
         @match_lazy_correct = lazy?
-        @match_attribute_exists && @match_type_correct && @match_default_value_correct && @match_required_correct && @match_lazy_correct
+        @match_writer = writer?
+        @match_attribute_exists && @match_type_correct && @match_default_value_correct && @match_required_correct && @match_lazy_correct && @match_writer
       end
 
       def failure_message
@@ -53,6 +60,7 @@ module RSpec
         msg << 'have correct default value'  if @options.key?(:default_value) && !@match_default_value_correct
         msg << 'have correct required flag'  if @options.key?(:required) && !@match_required_correct
         msg << 'have correct lazy flag'  if @options.key?(:lazy) && !@match_lazy_correct
+        msg << "have #{@options[:writer]} writer" if @options.key?(:writer) && !@match_writer
         msg.join(' and ')
       end
 
@@ -62,6 +70,7 @@ module RSpec
         msg << 'not have correct default value'  if @options.key?(:default_value)
         msg << 'not have correct required flag'  if @options.key?(:required)
         msg << 'not have correct lazy flag'  if @options.key?(:lazy)
+        msg << "not have #{@options[:writer]} writer" if @options.key?(:writer)
         msg.join(' and ')
       end
 
@@ -96,6 +105,10 @@ module RSpec
         end
       end
 
+      def attribute_writer
+        attribute.public_writer? ? :public : :private
+      end
+
       def type_correct?
         if @options[:type].is_a?(::Array)
           attribute_type == @options[:type].class && member_type == @options[:type].first
@@ -119,6 +132,11 @@ module RSpec
       def lazy?
         return true if @options[:lazy].nil?
         attribute.lazy? == @options[:lazy]
+      end
+
+      def writer?
+        return true if @options[:writer].nil?
+        @options[:writer] == attribute_writer
       end
 
       def normalize_type
